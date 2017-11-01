@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
-puts "hello"
+require "./lib/club_nights"
+
+ClubNights::CLI.new.call
