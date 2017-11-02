@@ -11,16 +11,20 @@ class ClubNights::CLI
   end
 
   def list_region
-    region_list = ClubNights::Scraper.make_region_list
+    ClubNights::Scraper.make_region_list
     puts "\nSelect your region:"
   end
 
   def select_region
     input = gets.strip
-
     if input.to_i > 0
-      puts "Your current location is New York, US."
+
+      region = ClubNights::Scraper.scrape_region_list[input.to_i - 1]
+        puts "Your current location is #{region}\b."
+
       puts "Venues: 1412\nUpcoming events: 280\nTotal population: 8.4M\n\n"
+
+
     else
       puts "try again"
       restart_list_region
