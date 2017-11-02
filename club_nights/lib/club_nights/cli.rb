@@ -11,20 +11,8 @@ class ClubNights::CLI
   end
 
   def list_region
-    puts <<-DOC
-    1. London, UK
-    2. Berlin, DE
-    3. New York, US
-    4. Paris, FR
-    5. Tokyo, JP
-    6. Barcelona, ES
-    7. Los Angeles, US
-    8. Amsterdam, NL
-    9. Manchester, UK
-    10. Sydney, AU
-
-    Select your region:
-    DOC
+    region_list = ClubNights::Scraper.make_region_list
+    puts "\nSelect your region:"
   end
 
   def select_region
