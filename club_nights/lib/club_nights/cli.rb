@@ -39,9 +39,11 @@ class ClubNights::CLI
     puts "Enter a day (Mon-Sun) you would like to go to the club:"
     puts "'back' to select different location"
     puts "'exit' to quit"
-    input = gets.strip
 
-    if input == "Mon"
+    input = gets.strip.downcase
+    day_names = Date::DAYNAMES.join.downcase
+
+    if day_names.include?(input)
       event_list
     elsif input == "back"
       restart_list_region
