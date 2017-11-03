@@ -18,13 +18,17 @@ class ClubNights::CLI
   def select_region
     input = gets.strip
     if input.to_i > 0
+      ClubNights::Scraper.scrape_city_country(input)
+      ClubNights::Scraper.region_stats
 
       region = ClubNights::Scraper.scrape_region_list[input.to_i - 1]
         puts "Your current location is #{region}\b."
 
-      puts "Venues: 1412\nUpcoming events: 280\nTotal population: 8.4M\n\n"
-
-
+      ClubNights::Location.all.each do |stats|
+        puts "Venues: #{stats.venues}\nUpcoming events: #{stats.events}\nTotal population: #{stats.population}"
+        puts ""
+      end
+      ClubNights::Location.all.clear
     else
       puts "try again"
       restart_list_region
