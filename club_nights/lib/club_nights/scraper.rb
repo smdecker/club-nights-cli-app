@@ -29,4 +29,13 @@ class ClubNights::Scraper
     end
   end
 
+  def self.scrape_events(input)
+  doc = Nokogiri::HTML(open("https://www.residentadvisor.net/events/#{@country}/#{@city}"))
+  event_listing = doc.search('div#event-listing ul#items li p.eventDate a[href]').each_with_object({}) { |atag, hash| hash[atag.text.strip] = atag['href'] }
+    event_listing.select do |k,v|
+      if input.downcase.include?(k.downcase[/[^,]+/])
+        @event_url = v
+      end
+    end
+  end
 end
