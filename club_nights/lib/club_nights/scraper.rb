@@ -19,4 +19,14 @@ class ClubNights::Scraper
     @country = strip_location.map {|k,v| v.downcase }[input.to_i - 1]
   end
 
+  def self.region_stats
+    Nokogiri::HTML(open("https://www.residentadvisor.net/guide/#{@country}/#{@city}")).search("ul.stats-list").each do |stats|
+      location = ClubNights::Location.new
+
+      location.venues = stats.search("li:nth-child(1) div.large").text
+      location.events = stats.search("li:nth-child(2) div.large").text
+      location.population = stats.search("li:nth-child(3) div.large").text
+    end
+  end
+
 end
