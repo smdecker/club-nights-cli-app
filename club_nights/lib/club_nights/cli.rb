@@ -44,6 +44,7 @@ class ClubNights::CLI
     day_names = Date::DAYNAMES.join.downcase
 
     if day_names.include?(input)
+      ClubNights::Scraper.scrape_events(input)
       event_list
     elsif input == "back"
       restart_list_region
@@ -57,31 +58,28 @@ class ClubNights::CLI
   end
 
   def event_list
-    input = nil
-    puts "These are your events for Mon, 06 Nov 2017:"
-    puts "
-    1. Flying Lotus in 3Dat Brooklyn Steel
-    2. The One Where Allen Plays at Bossa Nova Civic Club
-    3. Industry Night with Elon David Paglia at TBA Brooklyn
-    4. Shhh Monday Morning Membership After Hours Music By: Darelectric at TBA - New York\r\n"
-
+    ClubNights::Scraper.get_events
+    # puts "These are your events for Mon, 06 Nov 2017:"
+    # puts "
+    # 1. Flying Lotus in 3Dat Brooklyn Steel
+    # 2. The One Where Allen Plays at Bossa Nova Civic Club
+    # 3. Industry Night with Elon David Paglia at TBA Brooklyn
+    # 4. Shhh Monday Morning Membership After Hours Music By: Darelectric at TBA - New York\r\n"
+    #
     puts "Select an event to get more info or enter 'back' for a different day. You can also type 'region' for a different location or 'exit'"
-
-    while input != "exit"
-        input = gets.strip
-      if input == "back"
-        restart_day
-      elsif input.to_i > 0
-        event_details
-      elsif input == "region"
-        restart_list_region
-      elsif input == "exit"
-        goodbye
-        exit
-      else
-        puts "try again"
-        restart_event_list
-      end
+    input = gets.strip
+    if input == "back"
+      restart_day
+    elsif input.to_i > 0
+      event_details
+    elsif input == "region"
+      restart_list_region
+    elsif input == "exit"
+      goodbye
+      exit
+    else
+      puts "try again"
+      restart_event_list
     end
   end
 
