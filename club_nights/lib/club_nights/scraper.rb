@@ -56,7 +56,7 @@ class ClubNights::Scraper
   end
 
   def self.single_event
-  
+    puts "\n\e[4m#{@event_title}\n\e[0m"
     Nokogiri::HTML(open("https://www.residentadvisor.net#{@event_href}")).search("section.contentDetail").each do |details|
       event = ClubNights::Event.new
       event.date = details.xpath('//*[@id="detail"]/ul/li[1]/a','//*[@id="detail"]/ul/li[1]/child::text()').map(&:text).join(" / ")

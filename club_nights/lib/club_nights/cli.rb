@@ -59,13 +59,7 @@ class ClubNights::CLI
 
   def event_list
     ClubNights::Scraper.get_events
-    # puts "These are your events for Mon, 06 Nov 2017:"
-    # puts "
-    # 1. Flying Lotus in 3Dat Brooklyn Steel
-    # 2. The One Where Allen Plays at Bossa Nova Civic Club
-    # 3. Industry Night with Elon David Paglia at TBA Brooklyn
-    # 4. Shhh Monday Morning Membership After Hours Music By: Darelectric at TBA - New York\r\n"
-    #
+
     puts "Select an event to get more info or enter 'back' for a different day. You can also type 'region' for a different location or 'exit'"
     input = gets.strip
     if input == "back"
@@ -105,6 +99,7 @@ class ClubNights::CLI
       exit
     else
       puts "try again"
+      event_details
     end
   end
 
