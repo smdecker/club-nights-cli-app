@@ -86,10 +86,13 @@ class ClubNights::CLI
 
   def event_details
     ClubNights::Scraper.single_event
+    ClubNights::Event.all.each do |details|
+      puts "/ DATE:\n#{details.date}\n\n/ VENUE:\n#{details.venue}\n\n/ LINE UP:\n#{details.lineup}\n\n/ DESCRIPTION:#{details.description}"
+    end
 
     puts "\r\n'back' to see the event list again\r\n'day' to select another day\r\n'region' to select a different location\r\nor 'exit'"
+    ClubNights::Event.all.clear
 
-    input = nil
     input = gets.strip
     if input == "back"
       restart_event_list
