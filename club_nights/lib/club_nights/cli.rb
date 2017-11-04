@@ -86,40 +86,7 @@ class ClubNights::CLI
 
   def event_details
     ClubNights::Scraper.single_event
-    # puts "
-    # ===Industry Night with Elon David Paglia===
-    # / Date:
-    # Monday / 6 Nov 2017 / 21:00 - 04:00
-    #
-    # / Venue:
-    # TBA Brooklyn
-    # 395 Wythe Ave; Brooklyn, NY 11249; USA
-    #
-    # / Cost
-    # Free
-    #
-    # / Line-up
-    # Elon
-    # David Paglia
-    #
-    # / Description
-    # A banana (Elon) and a Paisano (David Paglia) come together, lugging in their respective vinyl collections to deliver an aural delicacy of rhythms and grooves spanning multiple genres of music including house, disco, funk, techno, downtempo, midtempo, uptempo, all tempos and everything in between...a back to back musical concoction for getting down & bar side chill with cocktails and conversation. Banana e Paisano occurs the first Monday of the month...
-    #
-    # Industry Night at TBA
-    # w/ Monthly Residents:
-    #
-    # Elon + David Paglia
-    # https://soundcloud.com/elon
-    # https://soundcloud.com/davidpaglia
-    #
-    # Drink Specials:
-    # $5 Yuengling pints
-    # $8 Moscow Mules
-    # All NIGHT
-    #
-    # Free
-    # 21+
-    # "
+
     puts "\r\n'back' to see the event list again\r\n'day' to select another day\r\n'region' to select a different location\r\nor 'exit'"
 
     input = nil

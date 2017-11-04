@@ -32,7 +32,7 @@ class ClubNights::Scraper
   def self.scrape_events(input)
     doc = Nokogiri::HTML(open("https://www.residentadvisor.net/events/#{@country}/#{@city}"))
     event_listing = doc.search('div#event-listing ul#items li p.eventDate a[href]').each_with_object({}) { |atag, hash| hash[atag.text.strip] = atag['href'] }
-    event_listing.select do |k,v|
+    event_listing.each do |k,v|
       if input.downcase.include?(k.downcase[/[^,]+/])
         @dayname_events = v
       end
@@ -57,5 +57,12 @@ class ClubNights::Scraper
 
   def self.single_event
     puts "#{@event_title}, #{@event_href}"
+    Nokogiri::HTML(open("https://www.residentadvisor.net#{@event_href}")).search("section.contentDetail").each do |details|
+      event = ClubNights::Event.new
+      event.date = details.xpath('//*[@id="detail"]/ul/li[1]/a','//*[@id="detail"]/ul/li[1]/child::text()').map(&:text).join(" / ")
+      event.venue = details.xpath('//*[@id="detail"]/ul/li[2]/a[1]','//*[@id="detail"]/ul/li[2]/child::text()').map(&:text).join(" /")
+      event.lineup = details.xpath('//*[@id="event-item"]/div[3]/p[1]').text
+      event.description = details.xpath('//*[@id="event-item"]/div[3]/p[2]').text
+    end
   end
 end
