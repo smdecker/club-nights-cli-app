@@ -22,11 +22,11 @@ class ClubNights::CLI
       ClubNights::Scraper.region_stats
 
       region = ClubNights::Scraper.scrape_region_list[input.to_i - 1]
-        puts "Your current location is #{region}\b."
+        puts "\nYour current location is #{region}\b."
 
       ClubNights::Location.all.each do |stats|
         puts "Venues: #{stats.venues}\nUpcoming events: #{stats.events}\nTotal population: #{stats.population}"
-        puts ""
+        # puts ""
       end
       ClubNights::Location.all.clear
     else
@@ -36,16 +36,16 @@ class ClubNights::CLI
   end
 
   def day
-    puts "Enter a day (Mon-Sun) you would like to go to the club:"
-    puts "'back' to select different location"
-    puts "'exit' to quit"
+    puts "-------------------------------------------------------"
+    puts "Enter a day (Mon-Sun) you would like to go to the club:\n\n'back' for a different location\n'exit' to quit"
 
     input = gets.strip.downcase
     day_names = Date::DAYNAMES.join.downcase
 
     if day_names.include?(input)
+      puts ""
       ClubNights::Scraper.scrape_events(input)
-      event_list
+      # event_list
     elsif input == "back"
       restart_list_region
     elsif input == "exit"
@@ -59,14 +59,14 @@ class ClubNights::CLI
 
   def event_list
     ClubNights::Scraper.get_events
-
-    puts "Select an event to get more info or enter 'back' for a different day. You can also type 'region' for a different location or 'exit'"
+    puts "---------------------------------"
+    puts "Select an event to get more info:\n\n'back' for a different day\n'region' for a different location\n'exit' to quit"
     input = gets.strip
     if input == "back"
       restart_day
     elsif input.to_i > 0
       ClubNights::Scraper.return_event(input)
-      event_details
+      # event_details
     elsif input == "region"
       restart_list_region
     elsif input == "exit"
@@ -83,9 +83,9 @@ class ClubNights::CLI
     ClubNights::Event.all.each do |details|
       puts "/ DATE:\n#{details.date}\n\n/ VENUE:\n#{details.venue}\n\n/ LINE UP:\n#{details.lineup}\n\n/ DESCRIPTION:#{details.description}"
     end
-
-    puts "\r\n'back' to see the event list again\r\n'day' to select another day\r\n'region' to select a different location\r\nor 'exit'"
     ClubNights::Event.all.clear
+
+    puts "\n'back' to see the event list again\n'day' for a different day\n'region' for a different location\n'exit' to quit"
 
     input = gets.strip
     if input == "back"
@@ -105,7 +105,7 @@ class ClubNights::CLI
 
 
   def goodbye
-    puts "see you at the club!"
+    puts "\r\nSee you at the club!\r\n"
   end
 
 ###
