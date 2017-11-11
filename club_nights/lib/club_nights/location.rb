@@ -1,5 +1,5 @@
 class ClubNights::Location
-  attr_accessor :venues, :events, :population
+  attr_accessor :venues, :events, :population, :date
 
   @@all = []
 

@@ -35,6 +35,8 @@ class ClubNights::Scraper
     event_listing.each do |k,v|
       if input.downcase.include?(k.downcase[/[^,]+/])
         @dayname_events = v
+        location = ClubNights::Location.new
+        location.date = k.gsub(" /", '')
       end
     end
   end

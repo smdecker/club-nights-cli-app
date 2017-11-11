@@ -36,15 +36,15 @@ class ClubNights::CLI
   end
 
   def day
-    puts "-------------------------------------------------------"
+    puts "\n-------------------------------------------------------"
     puts "Enter a day (Mon-Sun) you would like to go to the club:\n\n'back' for a different location\n'exit' to quit"
 
     input = gets.strip.downcase
     day_names = Date::DAYNAMES.join.downcase
 
     if day_names.include?(input)
-      puts ""
       ClubNights::Scraper.scrape_events(input)
+      ClubNights::Location.all.each {|event_date| puts "\n\e[4mYour events for #{event_date.date}:\n\e[0m"}
       # event_list
     elsif input == "back"
       restart_list_region
@@ -59,7 +59,7 @@ class ClubNights::CLI
 
   def event_list
     ClubNights::Scraper.get_events
-    puts "---------------------------------"
+    puts "\n---------------------------------"
     puts "Select an event to get more info:\n\n'back' for a different day\n'region' for a different location\n'exit' to quit"
     input = gets.strip
     if input == "back"
