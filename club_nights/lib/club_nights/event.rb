@@ -1,6 +1,6 @@
 class ClubNights::Event
   attr_accessor :date, :venue, :lineup, :description
-  
+
   @@all = []
 
   def initialize

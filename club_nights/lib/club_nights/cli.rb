@@ -14,7 +14,7 @@ class ClubNights::CLI
   end
 
   def list_region
-    ClubNights::Scraper.make_region_list
+    ClubNights::Scraper.scrape_region_list.first(15).each.with_index(1) {|region, i| puts "#{i}. #{region}"}
     puts "\nSelect your region:"
   end
 
@@ -61,7 +61,7 @@ class ClubNights::CLI
   def event_list
     ClubNights::Location.all.each {|event_date| puts "\n\e[4mYour events for #{event_date.date}:\n\e[0m"}
 
-    events = ClubNights::Scraper.get_events
+    events = ClubNights::Scraper.get_events.each.with_index(1) { |event, i| puts "#{i}. #{event}"}
     puts "\n---------------------------------"
     puts "Select an event to get more info:\n\n'back' for a different day\n'region' for a different location\n'exit' to quit"
     input = gets.strip
