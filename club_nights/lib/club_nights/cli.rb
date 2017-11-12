@@ -26,11 +26,10 @@ class ClubNights::CLI
 
       ClubNights::Location.all.each do |stats|
         puts "Venues: #{stats.venues}\nUpcoming events: #{stats.events}\nTotal population: #{stats.population}"
-        # puts ""
       end
       ClubNights::Location.all.clear
     else
-      puts "try again"
+      puts "\nPlease enter a valid command."
       restart_list_region
     end
   end
@@ -44,36 +43,36 @@ class ClubNights::CLI
 
     if day_names.include?(input)
       ClubNights::Scraper.scrape_events(input)
-      ClubNights::Location.all.each {|event_date| puts "\n\e[4mYour events for #{event_date.date}:\n\e[0m"}
-      # event_list
     elsif input == "back"
       restart_list_region
     elsif input == "exit"
       goodbye
       exit
     else
-      puts "try again"
+      puts "\nPlease enter a valid command."
       day
     end
   end
 
   def event_list
+    ClubNights::Location.all.each {|event_date| puts "\n\e[4mYour events for #{event_date.date}:\n\e[0m"}
+
     ClubNights::Scraper.get_events
     puts "\n---------------------------------"
     puts "Select an event to get more info:\n\n'back' for a different day\n'region' for a different location\n'exit' to quit"
     input = gets.strip
-    if input == "back"
-      restart_day
-    elsif input.to_i > 0
+    if input.to_i > 0
       ClubNights::Scraper.return_event(input)
-      # event_details
+      ClubNights::Location.all.clear
+    elsif input == "back"
+      restart_day
     elsif input == "region"
       restart_list_region
     elsif input == "exit"
       goodbye
       exit
     else
-      puts "try again"
+      puts "\nPlease enter a valid command."
       restart_event_list
     end
   end
@@ -98,14 +97,14 @@ class ClubNights::CLI
       goodbye
       exit
     else
-      puts "try again"
+      puts "\nPlease enter a valid command."
       event_details
     end
   end
 
 
   def goodbye
-    puts "\r\nSee you at the club!\r\n"
+    puts "\nSee you at the club!\n\n"
   end
 
 ###

@@ -43,18 +43,14 @@ class ClubNights::Scraper
 
   def self.get_events
     doc = Nokogiri::HTML(open("https://www.residentadvisor.net#{@dayname_events}"))
-    # binding.pry
     doc.search("ul#items li div.bbox h1.event-title").map(&:text).each.with_index(1) { |event, i| puts "#{i}. #{event}"}
   end
 
   def self.return_event(input)
     doc = Nokogiri::HTML(open("https://www.residentadvisor.net#{@dayname_events}"))
-    # binding.pry
+
     @event_href = doc.search("#items > li > article > div > h1 > a").map {|link| link.attribute('href').to_s }[input.to_i - 1]
-    # @href_select = event_href[input.to_i - 1]
-    #
     @event_title = doc.search("#items > li > article > div > h1 > a").map {|event| event.text.to_s }[input.to_i - 1].upcase
-    # @title_select = event_title[input.to_i - 1].upcase
   end
 
   def self.single_event
