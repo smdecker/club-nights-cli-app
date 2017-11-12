@@ -20,7 +20,8 @@ class ClubNights::CLI
 
   def select_region
     input = gets.strip
-    if input.to_i > 0
+
+    if input.to_i <= 15
       ClubNights::Scraper.scrape_city_country(input)
       ClubNights::Scraper.region_stats
 
@@ -60,11 +61,11 @@ class ClubNights::CLI
   def event_list
     ClubNights::Location.all.each {|event_date| puts "\n\e[4mYour events for #{event_date.date}:\n\e[0m"}
 
-    ClubNights::Scraper.get_events
+    events = ClubNights::Scraper.get_events
     puts "\n---------------------------------"
     puts "Select an event to get more info:\n\n'back' for a different day\n'region' for a different location\n'exit' to quit"
     input = gets.strip
-    if input.to_i > 0
+    if input.to_i <= events.size
       ClubNights::Scraper.return_event(input)
       ClubNights::Location.all.clear
     elsif input == "back"
@@ -104,7 +105,6 @@ class ClubNights::CLI
       event_details
     end
   end
-
 
   def goodbye
     puts "\nSee you at the club!\n\n"

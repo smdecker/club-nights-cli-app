@@ -7,9 +7,7 @@ class ClubNights::Scraper
   end
 
   def self.make_region_list
-    scrape_region_list.each.with_index(1) do |region, i|
-      puts "#{i}. #{region}"
-    end
+    scrape_region_list.first(15).each.with_index(1) {|region, i| puts "#{i}. #{region}"}
   end
 
   def self.scrape_city_country(input)
