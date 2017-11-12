@@ -1,7 +1,10 @@
 class ClubNights::CLI
 
   def call
-    puts "Welcome to your weekly listing of club nights\n\n"
+    puts "-------------------------------------------------"
+    puts "              Welcome to Club Nights              "
+    puts " your weekly listings of electronic music events "
+    puts "-------------------------------------------------\n\n"
     list_region
     select_region
     day
