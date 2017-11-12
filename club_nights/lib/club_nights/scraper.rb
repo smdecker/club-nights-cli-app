@@ -6,11 +6,7 @@ class ClubNights::Scraper
     doc.xpath('//*[@id="toplist"][2]/ul/li').text.split("/").select! { |x| x.include?(", ") }
   end
 
-  # def self.make_region_list
-  #   scrape_region_list.first(15).each.with_index(1) {|region, i| puts "#{i}. #{region}"}
-  # end
-
-  def self.scrape_city_country(input)
+  def self.city_country(input)
     strip_location = Hash[*scrape_region_list.collect(&:strip).map {|word| "#{word},"}.join.gsub(/[ + ]/, '').split(',')]
 
     @city = strip_location.map {|k,v| k.downcase }[input.to_i - 1]
@@ -32,25 +28,25 @@ class ClubNights::Scraper
     event_listing = doc.search('div#event-listing ul#items li p.eventDate a[href]').each_with_object({}) { |atag, hash| hash[atag.text.strip] = atag['href'] }
     event_listing.each do |k,v|
       if input.downcase.include?(k.downcase[/[^,]+/])
-        @dayname_url = v
+        @dayname_href = v
         ClubNights::Location.new.date = k.gsub(" /", '')
       end
     end
   end
 
   def self.get_events
-    doc = Nokogiri::HTML(open("https://www.residentadvisor.net#{@dayname_url}"))
+    doc = Nokogiri::HTML(open("https://www.residentadvisor.net#{@dayname_href}"))
     doc.search("ul#items li div.bbox h1.event-title").map(&:text)
   end
 
-  def self.return_event(input)
-    doc = Nokogiri::HTML(open("https://www.residentadvisor.net#{@dayname_url}"))
+  def self.event_href_title(input)
+    doc = Nokogiri::HTML(open("https://www.residentadvisor.net#{@dayname_href}"))
 
     @event_href = doc.search("#items > li > article > div > h1 > a").map {|link| link.attribute('href').to_s }[input.to_i - 1]
     @event_title = doc.search("#items > li > article > div > h1 > a").map {|event| event.text.to_s }[input.to_i - 1].upcase
   end
 
-  def self.single_event
+  def self.single_event_details
     puts "\n\e[4m#{@event_title}\n\e[0m"
     Nokogiri::HTML(open("https://www.residentadvisor.net#{@event_href}")).search("section.contentDetail").each do |details|
       event = ClubNights::Event.new
