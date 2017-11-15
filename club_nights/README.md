@@ -19,7 +19,7 @@ Or install it yourself as:
     $ gem install club_nights
 
 ## Usage
-
+Type the below and follow the on screen prompts.
 ./bin/club-nights
 
 ## Development
